@@ -10,6 +10,8 @@
 #define CAP_PROD 300
 #define CAP_MT 100
 
+// Struct con los productos, marcas y tipos de producto disponibles en el almacen
+// ademas de los carritos de compra del usuario
 typedef struct Almacen{
     HashMap * Productos;
     HashMap * Marcas;
@@ -18,6 +20,7 @@ typedef struct Almacen{
     size_t tot_prod, tot_marc, tot_tipos, tot_car; //opcional.
 }Almacen; 
 
+// Struct que almacena informacion de cada producto particular
 typedef struct Producto{
     char Nom_prod [MAX];
     char Marca [MAX];
@@ -25,13 +28,15 @@ typedef struct Producto{
     size_t precio, stock;
 }Producto;
 
+// Struct que almacena informacion de cada carrito de compra particular.
 typedef struct Carrito{
     char Nom_car [MAX];
     size_t tot_car;
-    Stack * Productos; //aun no esta definida.
+    Stack * Productos;
 }Carrito;
 
-//mostrarProductosTipo
+// Busca un tipo de producto especifico en el mapa de tipos (La clave es el nombre del tipo)
+// Accede a la lista almacenada en el mapa, imprimiendo todos sus productos.
 void Buscar_tipo (char * t, Almacen * Global){
 
     Pair * aux;
@@ -67,6 +72,7 @@ void Buscar_tipo (char * t, Almacen * Global){
     return; 
 }
 
+// Comprueba la existencia de un producto y lo agrega a los mapas y listas correspondientes.
 void agregar_producto(Almacen * Global, char * Nom, char * Marc, 
                       char * Type, size_t Price, size_t Stock){
     Pair * aux, * aux2, * aux3;
@@ -159,7 +165,7 @@ const char *get_csv_field (char * tmp, int k) {
     return NULL;
 }
 
-
+// Crea nuevo porducto, rellenando los campos correspondientes. 
 Producto * create_product(char * Nom, char * Marc, char * Tipo, size_t costo, size_t stock){
     Producto * new_prod = (Producto *) malloc (sizeof(Producto));
     // Comprobar reserva
@@ -173,6 +179,8 @@ Producto * create_product(char * Nom, char * Marc, char * Tipo, size_t costo, si
     return new_prod;
 }
 
+// Importa la informacion sobre los productos disponibles desde un
+// archivo csv con formato especifico.
 void importar_archivo(char * Nom_Arch, Almacen * gl){
     FILE * entrada;
     char str[MAX];
@@ -224,6 +232,7 @@ void importar_archivo(char * Nom_Arch, Almacen * gl){
     return;
 }
 
+// Crea un dato del tipo almacen con tal de guardar la informacion relevante.
 Almacen * create_Almacen(void){
     Almacen * new_alm = (Almacen *) malloc(sizeof(Almacen));
     // Comprobar reserva
@@ -241,16 +250,14 @@ Almacen * create_Almacen(void){
     return new_alm;
 }
 
+// Comprueba la exitencia de un carrito, agregando el producto deseado si es pertinente
 void Agregar_a_carr(Carrito  * car, Producto * prod){
-    //Comporbar existencia del carrito, comprobar repeticion en lista
-    // para no volver a agregar un mismo item al carrito. 
- 
-    // Si no se encunentra se agrega, si se encuentra se suma al stock.
+
 
     return;
 }
 
-// Se recorre hashmapde marcas por ser de menor tamanyo que  el de productos.
+// Se recorre hashmap de marcas por ser de menor tamanyo que el de productos.
 void exportar_archivo(Almacen * Global, char * arch){
     FILE * salida;
     Pair  * rec_marc;
